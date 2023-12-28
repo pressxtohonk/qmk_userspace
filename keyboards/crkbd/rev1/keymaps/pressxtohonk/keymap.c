@@ -205,6 +205,15 @@ void leader_end_user(void) {
         return;
     }
 
+    if (leader_sequence_three_keys(KC_G, KC_C, KC_A)) {
+        SEND_STRING("git status");
+        tap_code16(KC_ENT);
+        SEND_STRING("git commit -a -m \"\""); // g, c, a => git commit all
+        tap_code16(KC_LEFT);
+        return;
+    }
+
+
     if (leader_sequence_two_keys(KC_G, KC_S)) {
         SEND_STRING("git status"); // g, s => git status
         tap_code16(KC_ENT);
