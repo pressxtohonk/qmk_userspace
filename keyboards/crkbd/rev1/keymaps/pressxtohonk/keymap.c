@@ -185,6 +185,31 @@ void leader_end_user(void) {
             return;
         }        
     }
+
+    // Git shortcuts
+    if (leader_sequence_two_keys(KC_G, KC_A)) {
+        SEND_STRING("git add . && git status"); // g, a => git add
+        tap_code16(KC_ENT);
+        return;
+    }
+    
+    if (leader_sequence_three_keys(KC_G, KC_R, KC_S)) {
+        SEND_STRING("git restore --staged . && git status"); // g, r, s => git restore staged
+        tap_code16(KC_ENT);
+        return;
+    }
+
+    if (leader_sequence_two_keys(KC_G, KC_C)) {
+        SEND_STRING("git commit -m \"\""); // g, c => git commit
+        tap_code16(KC_LEFT);
+        return;
+    }
+
+    if (leader_sequence_two_keys(KC_G, KC_S)) {
+        SEND_STRING("git status"); // g, s => git status
+        tap_code16(KC_ENT);
+        return;
+    }
     
     // Personal information
     if (leader_sequence_two_keys(KC_P, KC_E)) {
