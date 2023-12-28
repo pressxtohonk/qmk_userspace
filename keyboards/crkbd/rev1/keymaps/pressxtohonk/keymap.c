@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "keycodes.h"
 #include QMK_KEYBOARD_H
 
 enum layers {
@@ -40,6 +39,7 @@ enum layers {
 // Tap-hold thumb keys
 #define SYM_TAB     LT(SYM, KC_TAB)
 #define NUM_ESC     LT(NUM, KC_ESC)
+#define NUM_LEAD    LT(NUM, QK_LEAD) // Can be replaced with a custom key
 #define NAV_SPC     LT(NAV, KC_SPC)
 #define OSM_SFT     OSM(MOD_LSFT)
 
@@ -67,18 +67,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_B,                         KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          QK_LEAD, SYM_TAB, OSM_SFT,    NUM_ESC, NAV_SPC, QK_LEAD
+                                          QK_LEAD, SYM_TAB, OSM_SFT,   NUM_LEAD, NAV_SPC, QK_LEAD
                                       //`--------------------------'  `--------------------------'
-
   ),
 
     [NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX,                      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
+      XXXXXXX,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                      XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
+      XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX,                      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, TO(ADJ), _______
                                       //`--------------------------'  `--------------------------'
@@ -175,7 +174,42 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 void leader_end_user(void) {
     if (leader_sequence_two_keys(KC_M, KC_E)) {
-        // Leader, m, e => "Mitchell Kwong"
+        // Leader, m, e => Me
         SEND_STRING("Mitchell Kwong");
+    } else if (leader_sequence_two_keys(KC_W, KC_E)) {
+        // Leader, w, e => work email
+        SEND_STRING("mitchellkwong@jpmchase.com");
+    } else if (leader_sequence_three_keys(KC_W, KC_I, KC_D)) {
+        // Leader, w, i, d => work ID
+        SEND_STRING("r724019");
+    }
+}
+
+bool process_leader_user(keyrecord_t *record) {
+    if (record->tap.count && record->event.pressed) {
+        // Intercept tap
+        if (!leader_sequence_active()) {
+            leader_start(); // Single tap
+        } else {
+            tap_code16(KC_ESC); // Double tap
+        }
+    } else {
+        // Intercept hold
+        if (record->event.pressed) {
+            layer_on(NUM); // hold start 
+        } else {
+            layer_off(NUM); // hold end
+        }
+    }
+    
+    return false;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case NUM_LEAD:
+            return process_leader_user(record);
+        default:
+            return true;
     }
 }
