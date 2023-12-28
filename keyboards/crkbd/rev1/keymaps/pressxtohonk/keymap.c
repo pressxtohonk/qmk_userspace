@@ -38,7 +38,6 @@ enum layers {
 
 // Tap-hold thumb keys
 #define SYM_TAB     LT(SYM, KC_TAB)
-#define NUM_ESC     LT(NUM, KC_ESC)
 #define NUM_LEAD    LT(NUM, QK_LEAD) // Can be replaced with a custom key
 #define NAV_SPC     LT(NAV, KC_SPC)
 #define OSM_SFT     OSM(MOD_LSFT)
@@ -165,24 +164,60 @@ uint16_t COMBO_LEN = sizeof(key_combos) / sizeof(*key_combos);
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case OSM_SFT:
-            return TAPPING_TERM + 1000;
+            return 500;
         default:
             return TAPPING_TERM;
     }
 }
 
 
+uint16_t gui_shortcuts[9] = {
+    KC_1, KC_2, KC_3, 
+    KC_4, KC_5, KC_6,
+    KC_7, KC_8, KC_9
+};
+
 void leader_end_user(void) {
-    if (leader_sequence_two_keys(KC_M, KC_E)) {
-        // Leader, m, e => Me
-        SEND_STRING("Mitchell Kwong");
-    } else if (leader_sequence_two_keys(KC_W, KC_E)) {
-        // Leader, w, e => work email
-        SEND_STRING("mitchellkwong@jpmchase.com");
-    } else if (leader_sequence_three_keys(KC_W, KC_I, KC_D)) {
-        // Leader, w, i, d => work ID
-        SEND_STRING("r724019");
+    // Window management shortcuts
+    for (int i=0; i<9; i++) {
+        if (leader_sequence_one_key(gui_shortcuts[i])) {
+            tap_code16(LGUI(gui_shortcuts[i])); // [n] => switches to window [n]
+            return;
+        }        
     }
+    
+    // Personal information
+    if (leader_sequence_two_keys(KC_P, KC_E)) {
+        SEND_STRING("mitchellkwong@gmail.com"); // p, e => personal email
+        return;
+    } 
+    
+    if (leader_sequence_two_keys(KC_P, KC_N)) {
+        SEND_STRING("Mitchell Kwong"); // p, n => personal name
+        return;
+    } 
+    
+    // Work information
+    if (leader_sequence_two_keys(KC_W, KC_E)) {
+        SEND_STRING("mitchellkwong@jpmchase.com"); // w, e => work email 
+        return;
+    } 
+    
+    if (leader_sequence_three_keys(KC_W, KC_I, KC_D)) {
+        SEND_STRING("r724019"); // w, i, d => work ID
+        return;
+    }
+
+    // Hardware shortcuts
+    if (leader_sequence_three_keys(KC_L, KC_E, KC_D)) {
+        rgblight_toggle(); // l, e, d => toggles led
+        return; 
+    }
+    
+    if (leader_sequence_five_keys(KC_R, KC_E, KC_S, KC_E, KC_T)) {
+        bootloader_jump(); // r, e, s, e, t => bootloader mode
+        return;
+    }    
 }
 
 bool process_leader_user(keyrecord_t *record) {
