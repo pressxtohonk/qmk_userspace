@@ -1,30 +1,4 @@
-/*
-Copyright 2019 @foostan
-Copyright 2020 Drashna Jaelre <@drashna>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include QMK_KEYBOARD_H
-
-enum layers {
-    COLEMAK,
-    NUM,
-    SYM,
-    NAV,
-    ADJ
-};
 
 // Home row mods
 #define HOME_A    CTL_T(KC_A)
@@ -43,80 +17,49 @@ enum layers {
 #define OSM_SFT     OSM(MOD_LSFT)
 
 // Nav shortcuts
-#define LAUNCH_1    G(KC_1)
-#define LAUNCH_2    G(KC_2)
-#define LAUNCH_3    G(KC_3)
-#define LAUNCH_4    G(KC_4)
-#define UNDO        C(KC_Z)
-#define REDO        C(KC_Y)
-#define COPY        C(KC_C)
-#define PASTE       C(KC_V)
 #define PREV_TAB    C(KC_PGUP)
 #define NEXT_TAB    C(KC_PGDN)
 #define BSPC_WRD    C(KC_BSPC)
-#define DEL_WRD     C(KC_DEL)
 
+enum layers {
+    COLEMAK,
+    NUM,
+    SYM,
+    NAV,
+    ADJ
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [COLEMAK] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                         KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,  HOME_A,  HOME_R,  HOME_S,  HOME_T,    KC_V,                         KC_M,  HOME_N,  HOME_E,  HOME_I,  HOME_O, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_B,                         KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          QK_LEAD, SYM_TAB, OSM_SFT,   NUM_LEAD, NAV_SPC, QK_LEAD
-                                      //`--------------------------'  `--------------------------'
-  ),
-
+        XXXXXXX,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                         KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN, XXXXXXX,
+        XXXXXXX,  HOME_A,  HOME_R,  HOME_S,  HOME_T,    KC_V,                         KC_M,  HOME_N,  HOME_E,  HOME_I,  HOME_O, XXXXXXX,
+        XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_B,                         KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
+                                            QK_LEAD, SYM_TAB, OSM_SFT,   NUM_LEAD, NAV_SPC, QK_LEAD
+    ),
     [NUM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                      XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX,                      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, TO(ADJ), _______
-                                      //`--------------------------'  `--------------------------'
-  ),
-
+        XXXXXXX,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
+        XXXXXXX, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                      XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
+        XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX,                      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
+                                            _______, _______, _______,    _______, TO(ADJ), _______
+    ),
     [SYM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,----------------------------------------------------.
-      XXXXXXX, S(KC_1), S(KC_2), S(KC_3), S(KC_4), XXXXXXX,                       KC_GRV, KC_LCBR, KC_RCBR, KC_UNDS, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, S(KC_5), S(KC_6), S(KC_7), S(KC_8), XXXXXXX,                      KC_QUOT, KC_LPRN, KC_RPRN, KC_COLN,  KC_EQL, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_SLSH, KC_ASTR, KC_MINS, KC_PLUS, XXXXXXX,                      KC_DQUO, KC_LBRC, KC_RBRC, KC_PIPE, KC_BSLS, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______,  KC_ENT, _______
-                                      //`--------------------------'  `--------------------------'
-  ),
-
+        XXXXXXX, S(KC_1), S(KC_2), S(KC_3), S(KC_4), XXXXXXX,                       KC_GRV, KC_LCBR, KC_RCBR, KC_UNDS, XXXXXXX, XXXXXXX,
+        XXXXXXX, S(KC_5), S(KC_6), S(KC_7), S(KC_8), XXXXXXX,                      KC_QUOT, KC_LPRN, KC_RPRN, KC_COLN,  KC_EQL, XXXXXXX,
+        XXXXXXX, KC_SLSH, KC_ASTR, KC_MINS, KC_PLUS, XXXXXXX,                      KC_DQUO, KC_LBRC, KC_RBRC, KC_PIPE, KC_BSLS, XXXXXXX,
+                                            _______, _______, _______,    _______,  KC_ENT, _______
+    ),
     [NAV] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,LAUNCH_4,LAUNCH_3,LAUNCH_2,LAUNCH_1, XXXXXXX,                      XXXXXXX,PREV_TAB,   KC_UP,NEXT_TAB, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_LCTL, KC_LSFT, KC_LGUI, KC_LALT, XXXXXXX,                      XXXXXXX, KC_LEFT, KC_DOWN,KC_RIGHT, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    UNDO,    REDO,   PASTE,    COPY, XXXXXXX,                      XXXXXXX, KC_BSPC,  KC_ENT,  KC_DEL, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, KC_BSPC,BSPC_WRD,    TO(ADJ), _______, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  ),
-
+        XXXXXXX, G(KC_4), G(KC_3), G(KC_2), G(KC_1), XXXXXXX,                      XXXXXXX,PREV_TAB,   KC_UP,NEXT_TAB, XXXXXXX, XXXXXXX,
+        XXXXXXX, KC_LCTL, KC_LSFT, KC_LGUI, KC_LALT, XXXXXXX,                      XXXXXXX, KC_LEFT, KC_DOWN,KC_RIGHT, XXXXXXX, XXXXXXX,
+        XXXXXXX, C(KC_Z), C(KC_Y), C(KC_V), C(KC_C), XXXXXXX,                      XXXXXXX, KC_BSPC,  KC_ENT,  KC_DEL, XXXXXXX, XXXXXXX,
+                                            XXXXXXX, KC_BSPC,BSPC_WRD,    TO(ADJ), _______, XXXXXXX
+    ),
     [ADJ] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, AC_TOGG, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_MOD,RGB_RMOD, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, KC_BRIU, XXXXXXX,                      XXXXXXX, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLD, KC_BRID, XXXXXXX,                      XXXXXXX, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX,XXXXXXX,TO(COLEMAK), TO(COLEMAK),XXXXXXX,XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  )
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, AC_TOGG, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_MOD,RGB_RMOD, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, KC_BRIU, XXXXXXX,                      XXXXXXX, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLD, KC_BRID, XXXXXXX,                      XXXXXXX, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,
+                                            XXXXXXX,XXXXXXX,TO(COLEMAK), TO(COLEMAK),XXXXXXX,XXXXXXX
+    )
 };
 
 
@@ -212,7 +155,6 @@ void leader_end_user(void) {
         tap_code16(KC_LEFT);
         return;
     }
-
 
     if (leader_sequence_two_keys(KC_G, KC_S)) {
         SEND_STRING("git status"); // g, s => git status
