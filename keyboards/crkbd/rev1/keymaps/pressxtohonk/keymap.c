@@ -20,7 +20,7 @@
 // Nav shortcuts
 #define PREV_TAB    C(KC_PGUP)
 #define NEXT_TAB    C(KC_PGDN)
-#define BSPC_WRD    C(KC_BSPC)
+#define BSPC_WRD    C(A(KC_BSPC))
 
 enum layers {
     COLEMAK,
