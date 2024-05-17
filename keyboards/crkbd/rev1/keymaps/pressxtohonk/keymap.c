@@ -12,6 +12,7 @@
 
 // Tap-hold thumb keys
 #define SYM_TAB     LT(SYM, KC_TAB)
+#define NUM_ESC     LT(NUM, KC_ESC) // Can be replaced with a custom key
 #define NUM_LEAD    LT(NUM, QK_LEAD) // Can be replaced with a custom key
 #define NAV_SPC     LT(NAV, KC_SPC)
 #define OSM_SFT     OSM(MOD_LSFT)
@@ -34,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                         KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN, XXXXXXX,
         XXXXXXX,  HOME_A,  HOME_R,  HOME_S,  HOME_T,    KC_V,                         KC_M,  HOME_N,  HOME_E,  HOME_I,  HOME_O, XXXXXXX,
         XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_B,                         KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
-                                            QK_LEAD, SYM_TAB, OSM_SFT,   NUM_LEAD, NAV_SPC, QK_LEAD
+                                            XXXXXXX, SYM_TAB, OSM_SFT,    NUM_ESC, NAV_SPC, XXXXXXX
     ),
     [NUM] = LAYOUT_split_3x6_3(
         XXXXXXX,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
