@@ -12,6 +12,7 @@
 
 // Tap-hold thumb keys
 #define SYM_TAB     LT(SYM, KC_TAB)
+#define NUM_ESC     LT(NUM, KC_ESC) // Can be replaced with a custom key
 #define NUM_LEAD    LT(NUM, QK_LEAD) // Can be replaced with a custom key
 #define NAV_SPC     LT(NAV, KC_SPC)
 #define OSM_SFT     OSM(MOD_LSFT)
@@ -35,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    _______, _______, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,
     HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_V,    _______, _______, KC_M,    HOME_N,  HOME_E,  HOME_I,  HOME_O ,
     KC_Z,    KC_X,    KC_C,    KC_D,    KC_B,    _______, _______, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,
-    _______, _______, _______, SYM_TAB, OSM_SFT, _______, _______, NUM_LEAD,NAV_SPC, _______, _______, _______
+    _______, _______, _______, SYM_TAB, OSM_SFT, _______, _______, NUM_ESC ,NAV_SPC, _______, _______, _______
 ),
 
 [SYM] = LAYOUT_planck_grid(
